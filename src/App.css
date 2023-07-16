@@ -36,3 +36,151 @@
     transform: rotate(360deg);
   }
 }
+
+.inline-header {
+	display: inline-block;
+	margin-right: 8px;
+	margin-left: 8px;
+}
+
+.no-bottom-margin {
+	margin-bottom: 0px;
+}
+
+.small-bottom-margin {
+	margin-bottom: 4px;
+}
+
+.align-top {
+	vertical-align: top;
+}
+
+.expenses {
+	background-color: lightblue;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.income {
+	background-color: #ffffff39;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.flex {
+	display: flex;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+.float-right {
+	float: right;
+}
+
+.btn {
+	min-height: 24px;
+	min-width: 24px;
+	border: 2px hidden #00000022;
+	background-color: #ffffff77;
+	border-radius: 0px;
+}
+
+.btn:hover {
+	background-color: #00000039;
+}
+
+.btn-grey {
+	background-color: #aaaaaaff;
+}
+
+.btn-red {
+	background-color: ffffff77;
+}
+
+.btn-red:hover {
+	background-color: lightcoral;
+}
+
+.input-text {
+	min-width: 60%;
+	min-height: 30px;
+	font-size: medium;
+	background-color: transparent;
+	border: 2px solid #00000044;
+	border-style: hidden hidden solid hidden;
+	padding: 0px 4px;
+	margin: 4px 0 0 4px;
+}
+
+.input-number {
+	background-color: transparent;
+	border: 2px solid #00000044;
+	border-style: hidden hidden solid hidden;
+	font-size: medium;
+	padding: 0px 4px;
+	margin: 0 4px 0 0;
+	max-width: 22%;
+	min-height: 30px;
+	text-align: right;
+}
+
+.input-text:focus, .input-number:focus {
+	outline: 0px solid;
+	background-color: #ffffff77;
+}
+
+.expense-dollar {
+	margin: 0 0 0 8px;
+}
+
+.expense-total-container {
+	min-height: 30px;
+	margin: 8px 8px 0 0;
+	text-align: right;
+}
+
+.expense-sub-total {
+	line-height: 30px;
+	display: inline-block;
+	background-color: #f0808039;
+	border: 2px solid #000000bb;
+	border-style: hidden hidden solid hidden;
+	font-size: medium;
+	width: 40%;
+	height: 30px;
+	padding: 0px 4px;
+}
+
+.income-sub-total {
+	line-height: 30px;
+	display: inline-block;
+	background-color: #8fbc8f77;
+	border: 2px solid #000000bb;
+	border-style: hidden hidden solid hidden;
+	font-size: medium;
+	width: 40%;
+	height: 30px;
+	padding: 0px 4px;
+}
+
+.expense-total {
+	line-height: 30px;
+	display: inline-block;
+	background-color: transparent;
+	border: 2px solid #000000bb;
+	border-style: hidden hidden solid hidden;
+	font-size: medium;
+	min-width: 200px;
+	height: 30px;
+	padding: 0px 4px;
+}
+
+.expense-total-positive {
+	background-color: #8fbc8f77;
+}
+
+.expense-total-negative {
+	background-color: #f0808039;
+}
