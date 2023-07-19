@@ -67,6 +67,12 @@
 	vertical-align: top;
 }
 
+.loans {
+	background-color: mistyrose;
+	display: inline-block;
+	vertical-align: top;
+}
+
 .flex {
 	display: flex;
 }
@@ -77,6 +83,10 @@
 
 .float-right {
 	float: right;
+}
+
+.right-margin {
+	margin: 0 8px 0 0;
 }
 
 .btn {
@@ -104,7 +114,7 @@
 }
 
 .input-text {
-	min-width: 60%;
+	width: 200px;
 	min-height: 30px;
 	font-size: medium;
 	background-color: transparent;
@@ -121,14 +131,34 @@
 	font-size: medium;
 	padding: 0px 4px;
 	margin: 0 4px 0 0;
-	max-width: 22%;
+	width: 80px;
 	min-height: 30px;
 	text-align: right;
+}
+
+.input-150 {
+	width: 150px;
+}
+
+.input-100 {
+	width: 100px;
+}
+
+.input-80 {
+	width: 80px;
+}
+
+.input-50 {
+	width: 50px;
 }
 
 .input-text:focus, .input-number:focus {
 	outline: 0px solid;
 	background-color: #ffffff77;
+}
+
+.expenses-group {
+	margin: 0 8px;
 }
 
 .expense-dollar {
@@ -137,7 +167,7 @@
 
 .expense-total-container {
 	min-height: 30px;
-	margin: 8px 8px 0 0;
+	margin: 8px 0 0 0;
 	text-align: right;
 }
 
@@ -175,6 +205,7 @@
 	min-width: 200px;
 	height: 30px;
 	padding: 0px 4px;
+	margin: 0 8px 0 0;
 }
 
 .expense-total-positive {

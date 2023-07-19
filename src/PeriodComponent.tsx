@@ -44,7 +44,7 @@ const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
 		<div>
 			<h3 className="inline-header no-bottom-margin">{item.name}</h3>
 			<div>
-				<span className="inline-block align-top">
+				<span className="inline-block align-top expenses-group">
 					<p className="inline-header"><b>Expenses</b></p>
 					<button className="btn" onClick={() => addExpense()}>+</button>
 					{
@@ -62,7 +62,7 @@ const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
 						: null
 					}
 				</span>
-				<span className="inline-block align-top">
+				<span className="inline-block align-top expenses-group">
 					<p className="inline-header"><b>Income</b></p>
 					<button className="btn" onClick={() => addIncome()}>+</button>
 					{

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import './App.css';
 import PeriodComponent from './PeriodComponent';
 import { getPeriodExpensesTotal, getPeriodIncomeTotal } from './PeriodItem';
+import LoanComponent from './LoanComponent';
+import LoansComponent from './LoansComponent';
 
 const sampleData = {
 	periods: [
@@ -10,7 +12,8 @@ const sampleData = {
 		{ name: "Monthly", weeks: 52/12, expenses: [], income: [] },
 		{ name: "Quarterly", weeks: 13, expenses: [], income: [] },
 		{ name: "Yearly", weeks: 52, expenses: [], income: [] },
-	]
+	],
+	loans: []
 };
 
 function App()
@@ -38,7 +41,7 @@ function App()
 				if (contents)
 				{
 					const newData = JSON.parse(contents.toString());
-					setContainer(newData);
+					setContainer({...sampleData, ...newData});
 				}
 				
 				document.body.removeChild(fileInput);
@@ -93,18 +96,22 @@ function App()
 				<button className='btn btn-grey inline-header' onClick={openFile}>Open...</button>
 				<button className='btn btn-grey' onClick={() => saveFile(JSON.stringify(container))}>Save...</button>
 			</div>
-				<span className='expenses'>
-					<h2 className='inline-header no-bottom-margin'>Expenses / Income</h2>
-					<span className='inline-header'>{(expenseIncomeRatio * 100).toFixed(0)}%</span>
+			<span className='expenses'>
+				<h2 className='inline-header no-bottom-margin'>Expenses / Income</h2>
+				<span className='inline-header'>{(expenseIncomeRatio * 100).toFixed(0)}%</span>
+				{
+					container.periods.map((item, index) =>
 					{
-						container.periods.map((item, index) =>
-						{
-							return (<PeriodComponent key={index} item={item}
-								getYearlyTotal={getYearyTotal}
-								onChange={() => setContainer({...container})}/>);
-						})
-					}
-				</span>
+						return (<PeriodComponent key={index} item={item}
+							getYearlyTotal={getYearyTotal}
+							onChange={() => setContainer({...container})}/>);
+					})
+				}
+			</span>
+			<span className='loans'>
+				<h2 className='inline-header no-bottom-margin'>Loans</h2>
+				<LoansComponent items={container.loans} onChange={() => setContainer({...container})} getYearlyTotal={getYearyTotal}/>
+			</span>
 		</div>
 	);
 }
