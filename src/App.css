@@ -99,6 +99,7 @@
 
 .btn:hover {
 	background-color: #00000039;
+	cursor: pointer;
 }
 
 .btn-grey {
