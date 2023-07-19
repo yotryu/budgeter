@@ -4,7 +4,9 @@ interface LoanItem
 	amount: number,
 	termYears: number,
 	interestRate: number,
-	weeklyRepaymentAmount: number
+	weeklyRepaymentAmount: number,
+	offsetStart: number,
+	savingsToOffsetPercent: number
 };
 
 export default LoanItem;

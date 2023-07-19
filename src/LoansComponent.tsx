@@ -7,7 +7,7 @@ const LoansComponent = ({items, onChange, getYearlyTotal} : LoansProps) =>
 {
 	const addLoan = () =>
 	{
-		const newItem = {description: "description", amount: 0, termYears: 0, interestRate: 0, weeklyRepaymentAmount: 0};
+		const newItem = {description: "description", amount: 0, termYears: 0, interestRate: 0, weeklyRepaymentAmount: 0, offsetStart: 0, savingsToOffsetPercent: 0};
 		items.push(newItem);
 		onChange();
 	};
