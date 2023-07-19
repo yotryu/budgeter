@@ -253,7 +253,7 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 				<input className="input-number input-50" value={strSavingsToOffset} 
 					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
 					onChange={(evt) => parseSavingsToOffsetPercent(evt.target.value)}/>
-				<span> = ${strSavingsToOffsetAmount}</span>
+				<span> = ${strSavingsToOffsetAmount} / week</span>
 			</div>
 			<div>
 				<span>Monthly repayments of ${monthRepayments.toFixed(2)} paid off in {(monthlyStats.length / 12).toFixed(1)} years</span>
