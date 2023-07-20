@@ -10,8 +10,7 @@ import {
 	Title,
 	Tooltip,
 	Legend,
-	Colors,
-	TooltipItem
+	Colors
 } from 'chart.js';
 
 ChartJS.register(
@@ -42,13 +41,26 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 	const [strRepay, setRepay] = useState(item.weeklyRepaymentAmount.toString());
 	const [strOffsetStart, setOffsetStart] = useState(item.offsetStart ? item.offsetStart.toString() : "0");
 	const [strSavingsToOffset, setSavingsToOffset] = useState(item.savingsToOffsetPercent ? (item.savingsToOffsetPercent * 100).toString() : "0");
-	const [strSavingsToOffsetAmount, setSavingsToOffsetAmount] = useState(item.savingsToOffsetPercent ? (item.savingsToOffsetPercent * weeklySavings).toFixed(2) : "0");
+	const [selectedIndex, setSelectedIndex] = useState(-1);
+
+	const updateRepayments = () =>
+	{
+		const ratePerMonth = item.interestRate / 100 / 12;
+		const monthsInLoan = item.termYears * 12;
+
+		const repaymentAmountPerMonth = (ratePerMonth * item.amount) / (1 - Math.pow(1 + ratePerMonth, -monthsInLoan));
+		const repaymentAmountPerWeek = Math.ceil(repaymentAmountPerMonth * 12 / 52) + 1;
+
+		parseRepaymentAmount(repaymentAmountPerWeek.toString());
+	}
 
 	const parseAmount = (s: string) =>
 	{
 		const val = parseFloat(s);
 		setAmount(s);
 		item.amount = val;
+
+		updateRepayments();
 
 		onChange();
 	};
@@ -59,6 +71,8 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 		setRate(s);
 		item.interestRate = val;
 
+		updateRepayments();
+
 		onChange();
 	};
 
@@ -67,6 +81,8 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 		const val = parseFloat(s);
 		setTerm(s);
 		item.termYears = val;
+
+		updateRepayments();
 
 		onChange();
 	};
@@ -97,12 +113,10 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 		if (isNaN(val) === false)
 		{
 			item.savingsToOffsetPercent = val / 100;
-			setSavingsToOffsetAmount((item.savingsToOffsetPercent * weeklySavings).toFixed(2));
 		}
 		else
 		{
 			item.savingsToOffsetPercent = 0;
-			setSavingsToOffsetAmount("0");
 		}
 
 		onChange();
@@ -139,7 +153,7 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 		const interestOffsetAmount = offsetAmount;
 		const amountChargedInterest = Math.max(amountRemaining - offsetAmount, 0);
 
-		const monthInterest = (amountChargedInterest * Math.pow(1 + interestRatePerDay, daysPerMonth)) - amountChargedInterest;
+		const monthInterest = parseFloat(((amountChargedInterest * Math.pow(1 + interestRatePerDay, daysPerMonth)) - amountChargedInterest).toFixed(2));
 
 		amountRemaining = amountRemaining + monthInterest - monthRepayments;
 		offsetAmount += monthlySavings * item.savingsToOffsetPercent;
@@ -218,7 +232,46 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 					}
 				}
 			}
+		},
+		onClick: (evt: any, elements: any, chart: any) =>
+		{
+			if (elements[0])
+			{
+				setSelectedIndex(elements[0].index);
+			}
 		}
+	};
+
+	const selectedContent = () =>
+	{
+		if (selectedIndex <= 0 || selectedIndex >= yearlyStats.length)
+		{
+			return null;
+		}
+
+		const data = yearlyStats[selectedIndex];
+		const principalText = `-$${data.totalPrincipal.toLocaleString()} / $${data.remaining.toLocaleString()} (${(data.remaining / item.amount * 100).toFixed(2)}%)`;
+		const interestText = `$${data.totalInterest.toLocaleString()} (${(data.totalInterest / data.totalRepayments * 100).toFixed(2)}%)`;
+		const repaymentsText = `$${data.totalRepayments.toLocaleString()}`;
+		const offsetText = `$${data.offsetAmount.toLocaleString()} (${(data.offsetAmount / data.remaining * 100).toFixed(2)}%)`;
+
+		return (
+			<div>
+				<div className="small-bottom-margin">After {selectedIndex} {selectedIndex > 1 ? "years" : "year"}</div>
+				<div className="row small-bottom-margin">
+					<span>Total repayments made:</span><span className="float-right">{repaymentsText}</span>
+				</div>
+				<div className="row small-bottom-margin">
+					<span>Principal:</span><span className="float-right">{principalText}</span>
+				</div>
+				<div className="row small-bottom-margin">
+					<span>Total interest paid:</span><span className="float-right">{interestText}</span>
+				</div>
+				<div className="row small-bottom-margin">
+					<span>Offset available:</span><span className="float-right">{offsetText}</span>
+				</div>
+			</div>
+		);
 	};
 	
 	return (
@@ -253,12 +306,13 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 				<input className="input-number input-50" value={strSavingsToOffset} 
 					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
 					onChange={(evt) => parseSavingsToOffsetPercent(evt.target.value)}/>
-				<span> = ${strSavingsToOffsetAmount} / week</span>
+				<span> = ${item.savingsToOffsetPercent ? (item.savingsToOffsetPercent * weeklySavings).toFixed(2) : "0.00"} / week</span>
 			</div>
 			<div>
-				<span>Monthly repayments of ${monthRepayments.toFixed(2)} paid off in {(monthlyStats.length / 12).toFixed(1)} years</span>
+				<span>Monthly repayments of ${monthRepayments.toFixed(2)} paid off in {((monthlyStats.length - 1) / 12).toFixed(1)} years</span>
 			</div>
 			<Line datasetIdKey="id" data={chartData} options={chartOptions}/>
+			{selectedContent()}
 		</div>
 	);
 };
