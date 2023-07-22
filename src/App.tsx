@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './App.css';
 import PeriodComponent from './PeriodComponent';
 import { getPeriodExpensesTotal, getPeriodIncomeTotal } from './PeriodItem';
-import LoanComponent from './LoanComponent';
 import LoansComponent from './LoansComponent';
 
 const sampleData = {
@@ -19,6 +18,8 @@ const sampleData = {
 function App()
 {
 	const [container, setContainer] = useState(sampleData);
+	const [containerGuid, setContainerGuid] = useState(crypto.randomUUID());
+	const [filename, setFilename] = useState("");
 
 	const openFile = () =>
 	{
@@ -42,6 +43,11 @@ function App()
 				{
 					const newData = JSON.parse(contents.toString());
 					setContainer({...sampleData, ...newData});
+					setContainerGuid(crypto.randomUUID());
+
+					const extStartIndex = file.name.lastIndexOf('.');
+					const fname = extStartIndex >= 0 ? file.name.substring(0, extStartIndex) : file.name;
+					setFilename(fname);
 				}
 				
 				document.body.removeChild(fileInput);
@@ -56,10 +62,11 @@ function App()
 
 	const saveFile = (data: string) =>
 	{
+		const fname = filename ? (filename.endsWith(".json") ? filename : filename + ".json") : "budgeter.json";
 		const tempLink = document.createElement("a");
 		const blob = new Blob([data], {type: 'application/json'});
 		tempLink.setAttribute('href', URL.createObjectURL(blob));
-		tempLink.setAttribute('download', "budgeter.json");
+		tempLink.setAttribute('download', fname);
 		tempLink.click();
 		
 		URL.revokeObjectURL(tempLink.href);
@@ -91,9 +98,10 @@ function App()
 	const expenseIncomeRatio = getYearyTotal() / getYearlyIncomeTotal();
 
 	return (
-		<div>
+		<div key={containerGuid}>
 			<div>
 				<button className='btn btn-grey inline-header' onClick={openFile}>Open...</button>
+				<input className='input-text' value={filename} onChange={(e) => setFilename(e.target.value)}/>
 				<button className='btn btn-grey' onClick={() => saveFile(JSON.stringify(container))}>Save...</button>
 			</div>
 			<span className='expenses'>

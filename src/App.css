@@ -51,6 +51,10 @@
 	margin-bottom: 4px;
 }
 
+.small-top-margin {
+	margin-top: 4px;
+}
+
 .align-top {
 	vertical-align: top;
 }
@@ -71,6 +75,16 @@
 	background-color: mistyrose;
 	display: inline-block;
 	vertical-align: top;
+}
+
+.loans-item {
+	background-color: #ffefef;
+	padding: 8px;
+}
+
+.loans-summary {
+	padding: 4px;
+	border: 2px solid #00000077;
 }
 
 .flex {
@@ -215,4 +229,15 @@
 
 .expense-total-negative {
 	background-color: #f0808039;
+}
+
+.loan-line {
+	width: 100%;
+	min-height: 30px;
+	display: table;
+}
+
+.loan-right {
+	display: table-cell;
+	text-align: right;
 }

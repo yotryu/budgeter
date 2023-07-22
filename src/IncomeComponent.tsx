@@ -36,7 +36,7 @@ const IncomeComponent = ({item, onChange, onRemove} : IncomeProps) =>
 				? null
 				: "Invalid amount"
 			}
-			<button className="btn btn-red" onClick={() => onRemove(item)}>-</button>
+			<button className="btn btn-red" title="Remove" onClick={() => onRemove(item)}>-</button>
 		</div>
 	);
 };

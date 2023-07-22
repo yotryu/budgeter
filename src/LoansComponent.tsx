@@ -21,7 +21,7 @@ const LoansComponent = ({items, onChange, getYearlyTotal} : LoansProps) =>
 
 	return (
 		<>
-			<button className="btn" onClick={() => addLoan()}>+</button>
+			<button className="btn" title="Add" onClick={() => addLoan()}>+</button>
 			<div className="expenses-group">
 			{
 				items.map((loan, index) =>

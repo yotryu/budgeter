@@ -209,6 +209,9 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 				}
 			}
 		},
+		interaction: {
+			mode: "x" as const
+		},
 		plugins: {
 			tooltip: {
 				callbacks: {
@@ -235,9 +238,10 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 		},
 		onClick: (evt: any, elements: any, chart: any) =>
 		{
-			if (elements[0])
+			const els = chart.getElementsAtEventForMode(evt, "nearest" as const, { intersect: false }, true);
+			if (els && els.length > 0)
 			{
-				setSelectedIndex(elements[0].index);
+				setSelectedIndex(els[0].index);
 			}
 		}
 	};
@@ -275,12 +279,16 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 	};
 	
 	return (
-		<div>
+		<div className="loans-item inline-block">
+			<div>
+			<button className="btn btn-red float-right" title="Remove" onClick={() => onRemove(item)}>X</button>
 			<input className="input-text input-150" value={item.description} onChange={(evt) => updateDescription(evt.target.value)}/>
 			<span className="expense-dollar">$</span>
 			<input className="input-number input-80" value={strAmount} 
 				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
 				onChange={(evt) => parseAmount(evt.target.value)}/>
+			</div>
+			<div>
 			<span>@</span>
 			<input className="input-number input-50" value={strRate} 
 				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
@@ -290,25 +298,35 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
 				onChange={(evt) => parseTerm(evt.target.value)}/>
 			<span className="right-margin">years</span>
-			<button className="btn btn-red" onClick={() => onRemove(item)}>-</button>
-			<div>
-				<span>Weekly repayments of $</span>
-				<input className="input-number input-50" value={strRepay} 
-					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
-					onChange={(evt) => parseRepaymentAmount(evt.target.value)}/>
 			</div>
-			<div>
-				<span>Offset start $</span>
-				<input className="input-number input-80" value={strOffsetStart} 
-					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
-					onChange={(evt) => parseOffsetStartAmount(evt.target.value)}/>
-				<span>+ savings percent </span>
-				<input className="input-number input-50" value={strSavingsToOffset} 
-					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
-					onChange={(evt) => parseSavingsToOffsetPercent(evt.target.value)}/>
-				<span> = ${item.savingsToOffsetPercent ? (item.savingsToOffsetPercent * weeklySavings).toFixed(2) : "0.00"} / week</span>
+			<div className="loan-line">
+				<span>Weekly repayments</span>
+				<span className="loan-right">
+					<span>$</span>
+					<input className="input-number input-80" value={strRepay} 
+						onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
+						onChange={(evt) => parseRepaymentAmount(evt.target.value)}/>
+				</span>
 			</div>
-			<div>
+			<div className="loan-line">
+				<span>Offset start</span>
+				<span className="loan-right">
+					<span>$</span>
+					<input className="input-number input-80" value={strOffsetStart} 
+						onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
+						onChange={(evt) => parseOffsetStartAmount(evt.target.value)}/>
+				</span>
+			</div>
+			<div className="loan-line">
+				<span>Saving rate</span>
+				<span className="loan-right">
+					<input className="input-number input-50" value={strSavingsToOffset} 
+						onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
+						onChange={(evt) => parseSavingsToOffsetPercent(evt.target.value)}/>
+					<span>% = ${item.savingsToOffsetPercent ? (item.savingsToOffsetPercent * weeklySavings).toFixed(2) : "0.00"} / week</span>
+				</span>
+			</div>
+			<div className="loans-summary small-top-margin">
 				<span>Monthly repayments of ${monthRepayments.toFixed(2)} paid off in {((monthlyStats.length - 1) / 12).toFixed(1)} years</span>
 			</div>
 			<Line datasetIdKey="id" data={chartData} options={chartOptions}/>

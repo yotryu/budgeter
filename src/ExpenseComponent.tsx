@@ -29,7 +29,7 @@ const ExpenseComponent = ({item, onChange, onRemove} : ExpenseProps) =>
 			<input className="input-number right-margin" value={strAmount} 
 				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
 				onChange={(evt) => parseAmount(evt.target.value)}/>
-			<button className="btn btn-red" onClick={() => onRemove(item)}>-</button>
+			<button className="btn btn-red" title="Remove" onClick={() => onRemove(item)}>-</button>
 		</div>
 	);
 };

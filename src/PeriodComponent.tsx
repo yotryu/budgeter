@@ -46,7 +46,7 @@ const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
 			<div>
 				<span className="inline-block align-top expenses-group">
 					<p className="inline-header"><b>Expenses</b></p>
-					<button className="btn" onClick={() => addExpense()}>+</button>
+					<button className="btn" title="Add" onClick={() => addExpense()}>+</button>
 					{
 						item.expenses.map((expense, index) =>
 						{
@@ -64,7 +64,7 @@ const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
 				</span>
 				<span className="inline-block align-top expenses-group">
 					<p className="inline-header"><b>Income</b></p>
-					<button className="btn" onClick={() => addIncome()}>+</button>
+					<button className="btn" title="Add" onClick={() => addIncome()}>+</button>
 					{
 						item.income.map((income, index) =>
 						{
