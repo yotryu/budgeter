@@ -1,5 +1,6 @@
 import ExpenseItem from "./ExpenseItem"
 import { IncomeItem } from "./IncomeItem";
+import LoanItem from "./LoanItem";
 
 export interface PeriodItem
 {
@@ -9,13 +10,21 @@ export interface PeriodItem
 	income: IncomeItem[]
 };
 
-export function getPeriodExpensesTotal(period: PeriodItem): number
+export function getPeriodExpensesTotal(period: PeriodItem, loans: LoanItem[]): number
 {
 	let total = 0;
 	period.expenses.forEach((item) =>
 	{
 		total += item.amount;
 	});
+
+	if (period.weeks === 1 && loans)
+	{
+		loans.forEach((item) =>
+		{
+			total += item.weeklyRepaymentAmount;
+		});
+	}
 
 	return total;
 }

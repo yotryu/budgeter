@@ -77,7 +77,7 @@ function App()
 		let total = 0;
 		container.periods.forEach((item) =>
 		{
-			total -= getPeriodExpensesTotal(item) / item.weeks * 52;
+			total -= getPeriodExpensesTotal(item, container.loans) / item.weeks * 52;
 			total += getPeriodIncomeTotal(item) / item.weeks * 52;
 		});
 
@@ -110,7 +110,7 @@ function App()
 				{
 					container.periods.map((item, index) =>
 					{
-						return (<PeriodComponent key={index} item={item}
+						return (<PeriodComponent key={index} item={item} loans={container.loans}
 							getYearlyTotal={getYearyTotal}
 							onChange={() => setContainer({...container})}/>);
 					})

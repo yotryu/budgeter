@@ -2,11 +2,12 @@ import ExpenseComponent from "./ExpenseComponent";
 import ExpenseItem from "./ExpenseItem";
 import IncomeComponent from "./IncomeComponent";
 import { IncomeItem } from "./IncomeItem";
+import LoanItem from "./LoanItem";
 import {PeriodItem, getPeriodExpensesTotal, getPeriodIncomeTotal} from "./PeriodItem";
 
-type PeriodProps = { item: PeriodItem, onChange: () => void, getYearlyTotal: () => number };
+type PeriodProps = { item: PeriodItem, loans: LoanItem[], onChange: () => void, getYearlyTotal: () => number };
 
-const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
+const PeriodComponent = ({item, loans, onChange, getYearlyTotal} : PeriodProps) =>
 {
 	const addExpense = () =>
 	{
@@ -35,7 +36,7 @@ const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
 	};
 
 	const numberFormat = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-	const expenseTotal = getPeriodExpensesTotal(item);
+	const expenseTotal = getPeriodExpensesTotal(item, loans);
 	const incomeTotal = getPeriodIncomeTotal(item);
 	const yearlyTotal = getYearlyTotal() / 52 * item.weeks;
 	const totalClassName = "expense-total " + (yearlyTotal >= 0 ? "expense-total-positive" : "expense-total-negative");
@@ -52,6 +53,15 @@ const PeriodComponent = ({item, onChange, getYearlyTotal} : PeriodProps) =>
 						{
 							return <ExpenseComponent key={index} item={expense} onChange={onChange} onRemove={removeExpense}/>
 						})
+					}
+					{
+						item.weeks === 1 && loans
+						? loans.map((loan, index) =>
+						{
+							const expense = {description: loan.description, amount: loan.weeklyRepaymentAmount};
+							return <ExpenseComponent key={`loan ${index}`} item={expense}/>
+						})
+						: null
 					}
 					{
 						expenseTotal !== 0
