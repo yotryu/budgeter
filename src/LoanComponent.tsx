@@ -279,25 +279,25 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 	};
 	
 	return (
-		<div className="loans-item inline-block">
+		<span className="loans-item">
 			<div>
-			<button className="btn btn-red float-right" title="Remove" onClick={() => onRemove(item)}>X</button>
-			<input className="input-text input-150" value={item.description} onChange={(evt) => updateDescription(evt.target.value)}/>
-			<span className="expense-dollar">$</span>
-			<input className="input-number input-80" value={strAmount} 
-				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
-				onChange={(evt) => parseAmount(evt.target.value)}/>
+				<button className="btn btn-red float-right" title="Remove" onClick={() => onRemove(item)}>X</button>
+				<input className="input-text input-150" value={item.description} onChange={(evt) => updateDescription(evt.target.value)}/>
+				<span className="expense-dollar">$</span>
+				<input className="input-number input-80" value={strAmount} 
+					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
+					onChange={(evt) => parseAmount(evt.target.value)}/>
 			</div>
 			<div>
-			<span>@</span>
-			<input className="input-number input-50" value={strRate} 
-				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
-				onChange={(evt) => parseRate(evt.target.value)}/>
-			<span>% over</span>
-			<input className="input-number input-50" value={strTerm} 
-				onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
-				onChange={(evt) => parseTerm(evt.target.value)}/>
-			<span className="right-margin">years</span>
+				<span>@</span>
+				<input className="input-number input-50" value={strRate} 
+					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
+					onChange={(evt) => parseRate(evt.target.value)}/>
+				<span>% over</span>
+				<input className="input-number input-50" value={strTerm} 
+					onFocus={(evt) => evt.target.setSelectionRange(0, evt.target.value.length)} 
+					onChange={(evt) => parseTerm(evt.target.value)}/>
+				<span className="right-margin">years</span>
 			</div>
 			<div className="loan-line">
 				<span>Weekly repayments</span>
@@ -331,7 +331,7 @@ const LoanComponent = ({item, getYearlyTotal, onChange, onRemove} : LoanProps) =
 			</div>
 			<Line datasetIdKey="id" data={chartData} options={chartOptions}/>
 			{selectedContent()}
-		</div>
+		</span>
 	);
 };
 

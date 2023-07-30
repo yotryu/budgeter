@@ -80,6 +80,8 @@
 .loans-item {
 	background-color: #ffefef;
 	padding: 8px;
+	margin-bottom: 8px;
+	display: block;
 }
 
 .loans-summary {
