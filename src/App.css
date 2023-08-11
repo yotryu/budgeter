@@ -169,6 +169,12 @@
 	width: 50px;
 }
 
+.line {
+	border: 2px solid #ffffff77;
+	border-style: hidden hidden solid hidden;
+	margin: 8px 8px 0 8px;
+}
+
 .input-text:focus, .input-number:focus {
 	outline: 0px solid;
 	background-color: #ffffff77;

@@ -95,6 +95,7 @@ const PeriodComponent = ({item, loans, onChange, getYearlyTotal} : PeriodProps) 
 					<span className={totalClassName}>{yearlyTotal.toLocaleString(undefined, numberFormat)}</span>
 				</div>
 			</div>
+			<div className="line"></div>
 		</div>
 	);
 };
